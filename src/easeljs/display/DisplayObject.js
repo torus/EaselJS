@@ -396,11 +396,16 @@ DisplayObject._workingMatrix = new Matrix2D();
 	* For example, used for drawing the cache (to prevent it from simply drawing an existing cache back
 	* into itself).
 	**/
+	
+	p.cacheData = null;
+	
 	p.draw = function(ctx, ignoreCache) {
 		if (ignoreCache || !this.cacheCanvas) { return false; }
-		ctx.translate(this._cacheOffsetX, this._cacheOffsetY);
-		ctx.drawImage(this.cacheCanvas, 0, 0);
-		ctx.translate(-this._cacheOffsetX, -this._cacheOffsetY);
+		//ctx.translate(this._cacheOffsetX, this._cacheOffsetY);
+		//ctx.drawImage(this.cacheCanvas, 0, 0);
+					
+		ctx.putImageData(this.cacheData, this.x,this.y);
+		//ctx.translate(-this._cacheOffsetX, -this._cacheOffsetY);
 		return true;
 	}
 	
@@ -426,12 +431,21 @@ DisplayObject._workingMatrix = new Matrix2D();
 		ctx = this.cacheCanvas.getContext("2d");
 		this.cacheCanvas.width = width;
 		this.cacheCanvas.height = height;
+				
+	
 		ctx.setTransform(1, 0, 0, 1, -x, -y);
 		ctx.clearRect(0, 0, width+1, height+1); // because some browsers don't correctly clear if the width/height 
 												//remain the same.
+
 		this.draw(ctx, true);
 		this._cacheOffsetX = x;
 		this._cacheOffsetY = y;
+		
+		this.cacheData = ctx.getImageData(
+				0,
+				0,
+				this.cacheCanvas.width, 
+				this.cacheCanvas.height);				
 	}
 
 	/**
