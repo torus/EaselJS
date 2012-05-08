@@ -24,26 +24,38 @@ function init() {
 
     var pos = []
 
-    for (var i = 0; i < 100; i ++) {
-        var x = w * Math.random() | 0
-        var y = h * Math.random() | 0
+    for (var u = 3; u > 0; u --) {
+        for (var i = 0; i < 100; i ++) {
+            var x = w * Math.random() | 0
+            var y = h * Math.random() | 0
 
-        if (ctx.getImageData(x, y, 1, 1).data[0] == 0) {
-            g.beginFill(Graphics.getRGB(63, 0, 0, 1)).drawCircle(x, y, 90)
-            g.beginFill(Graphics.getRGB(127, 0, 0, 1)).drawCircle(x, y, 60)
-            g.beginFill(Graphics.getRGB(255, 0, 0, 1)).drawCircle(x, y, 30)
-            stage.addChild(shape)
-            pos.push([x, y])
+            var f = Math.pow(2, u)
+            var r = 15 * f
 
-            // call update on the stage to make it render the current display list to the canvas:
-            stage.update();
+            for (var v = u; v > 0; v --) {
+                if (ctx.getImageData(x, y, 1, 1).data[0] < 255 / f) {
+                    // g.beginFill(Graphics.getRGB(63, 0, 0, 1)).drawCircle(x, y, 90)
+                    // g.beginFill(Graphics.getRGB(127, 0, 0, 1)).drawCircle(x, y, 60)
+                    // g.beginFill(Graphics.getRGB(255, 0, 0, 1)).drawCircle(x, y, 30)
+
+                    g.beginFill(Graphics.getRGB(255, 0, 0, 1 / 4)).drawCircle(x, y, r)
+                    g.beginFill(Graphics.getRGB(255, 0, 0, 1 / 2)).drawCircle(x, y, r / 2)
+
+                    stage.addChild(shape)
+
+                    // call update on the stage to make it render the current display list to the canvas:
+                    stage.update();
+
+                    pos.push([x, y, r])
+                }
+            }
         }
     }
 
-    g.clear()
+    // g.clear()
 
-    for (var i in pos) {
-        g.beginStroke("white").beginFill("red").drawCircle(pos[i][0], pos[i][1], 30).endStroke()
-    }
-    stage.update();
+    // for (var i in pos) {
+    //     g.beginStroke("white").beginFill("red").drawCircle(pos[i][0], pos[i][1], pos[i][2]).endStroke()
+    // }
+    // stage.update();
 }
