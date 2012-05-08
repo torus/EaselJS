@@ -29,7 +29,9 @@ function init() {
         var y = h * Math.random() | 0
 
         if (ctx.getImageData(x, y, 1, 1).data[0] == 0) {
-            g.beginFill(Graphics.getRGB(10, 0, 0, 0.1)).drawCircle(x, y, 60)
+            g.beginFill(Graphics.getRGB(63, 0, 0, 1)).drawCircle(x, y, 90)
+            g.beginFill(Graphics.getRGB(127, 0, 0, 1)).drawCircle(x, y, 60)
+            g.beginFill(Graphics.getRGB(255, 0, 0, 1)).drawCircle(x, y, 30)
             stage.addChild(shape)
             pos.push([x, y])
 
@@ -37,6 +39,8 @@ function init() {
             stage.update();
         }
     }
+
+    g.clear()
 
     for (var i in pos) {
         g.beginStroke("white").beginFill("red").drawCircle(pos[i][0], pos[i][1], 30).endStroke()
