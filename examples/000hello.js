@@ -27,17 +27,19 @@ function init() {
     for (var i = 0; i < 50; i ++) {
         var x = canvas_w * Math.random() | 0
         var y = canvas_h * Math.random() | 0
-        pos.push([x, y])
+        var r = 50 * Math.random() | 0
+        pos.push([x, y, r])
     }
 
     for (var r = 255; r > 0; r -= 16) {
         for (var i in pos) {
             var x = pos[i][0]
             var y = pos[i][1]
+            var r_base = pos[i][2]
 
             var col = ctx.getImageData(x, y, 1, 1).data[0]
 
-            g.beginFill(Graphics.getRGB(255 - r, 0, 0, 1)).drawCircle(x, y, r)
+            g.beginFill(Graphics.getRGB(255 - r, 0, 0, 1)).drawCircle(x, y, r_base + r)
             stage.addChild(shape)
         }
     }
