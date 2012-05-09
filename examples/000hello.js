@@ -17,37 +17,35 @@ function init() {
     text.y = 200;
 
     var ctx = canvas.getContext("2d")
-    var w = canvas.width
-    var h = canvas.height
+    var canvas_w = canvas.width
+    var canvas_h = canvas.height
     var shape = new Shape()
     var g = shape.graphics
 
     var pos = []
 
     for (var u = 3; u > 0; u --) {
-        for (var i = 0; i < 100; i ++) {
-            var x = w * Math.random() | 0
-            var y = h * Math.random() | 0
+        for (var i = 0; i < 20; i ++) {
+            var x = canvas_w * Math.random() | 0
+            var y = canvas_h * Math.random() | 0
 
-            var f = Math.pow(2, u)
-            var r = 15 * f
+            var r = 30 * u
 
-            for (var v = u; v > 0; v --) {
-                if (ctx.getImageData(x, y, 1, 1).data[0] < 255 / f) {
-                    // g.beginFill(Graphics.getRGB(63, 0, 0, 1)).drawCircle(x, y, 90)
-                    // g.beginFill(Graphics.getRGB(127, 0, 0, 1)).drawCircle(x, y, 60)
-                    // g.beginFill(Graphics.getRGB(255, 0, 0, 1)).drawCircle(x, y, 30)
+            if (ctx.getImageData(x, y, 1, 1).data[0] < 256 / u
+               ) {
+                // g.beginFill(Graphics.getRGB(63, 0, 0, 1)).drawCircle(x, y, 90)
+                // g.beginFill(Graphics.getRGB(127, 0, 0, 1)).drawCircle(x, y, 60)
+                // g.beginFill(Graphics.getRGB(255, 0, 0, 1)).drawCircle(x, y, 30)
 
-                    g.beginFill(Graphics.getRGB(255, 0, 0, 1 / 4)).drawCircle(x, y, r)
-                    g.beginFill(Graphics.getRGB(255, 0, 0, 1 / 2)).drawCircle(x, y, r / 2)
-
+                for (var v = 0; v < u; v ++) {
+                    g.beginFill(Graphics.getRGB(64 * (u - v) - 1, 0, 0, 1)).drawCircle(x, y, r * Math.pow(2, v - u))
                     stage.addChild(shape)
-
-                    // call update on the stage to make it render the current display list to the canvas:
-                    stage.update();
-
-                    pos.push([x, y, r])
                 }
+
+                // call update on the stage to make it render the current display list to the canvas:
+                stage.update();
+
+                pos.push([x, y, r])
             }
         }
     }
