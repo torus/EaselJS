@@ -25,7 +25,7 @@ function init() {
     var pos = []
 
     var f = function (k) {
-        if (k < 50) {
+        if (k < 20) {
             var x = canvas_w * Math.random() | 0
             var y = canvas_h * Math.random() | 0
             var r = 50 * Math.random() | 0
@@ -39,7 +39,7 @@ function init() {
 
                     var col = ctx.getImageData(x, y, 1, 1).data[0]
 
-                    g.beginFill(Graphics.getRGB(255 - r, 0, 0, 1)).
+                    g.beginFill(Graphics.getRGB(255 - r, 0, 0, 1 / (r - 14))).
                         drawCircle(x, y, r_base + r)
                     stage.addChild(shape)
                 }
