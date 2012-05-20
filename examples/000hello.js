@@ -24,16 +24,31 @@ function init() {
 
     var pos = []
 
-    var gen = function () {
-        var x = canvas_w * Math.random() | 0
-        var y = canvas_h * Math.random() | 0
+    var gen = (function () {
+        var x = canvas_w / 2
+        var y = canvas_h / 2
+        var dir = 0
+        var r = 0
 
-        var col = ctx.getImageData(x, y, 1, 1).data[0]
-        console.log(col)
-        var r = Math.min(255 - 16 - col, 63)
+        var next = function () {
+            x += Math.cos(dir) * r * 2.3
+            y += Math.sin(dir) * r * 2
 
-        return {x: x, y: y, r: r}
-    }
+            var col = ctx.getImageData(x, y, 1, 1).data[0]
+            console.log(col)
+            r = Math.min(255 - 16 - col, 63)
+
+            dir += 0.9
+
+            return next
+        }
+
+        return function () {
+            next = next()
+
+            return {x: x, y: y, r: r}
+        }
+    })()
 
     var f = function (k) {
         if (k < 100) {
