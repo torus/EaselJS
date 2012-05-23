@@ -25,20 +25,28 @@ function init() {
     var pos = []
 
     var gen = (function () {
-        var x = canvas_w / 2
+        var x = 100
+        // var x = canvas_w / 2
         var y = canvas_h / 2
-        var dir = 0
-        var r = 0
+        var dir = -1.5
+        var r = 63
 
         var next = function () {
-            x += Math.cos(dir) * r * 2.3
+            var prev_x = x
+            var prev_y = y
+
+            x += Math.cos(dir) * r * 2
             y += Math.sin(dir) * r * 2
 
             var col = ctx.getImageData(x, y, 1, 1).data[0]
-            console.log(col)
-            r = Math.min(255 - 16 - col, 63)
+            console.log("col", col)
+            var prev_r = r
+            r = Math.sqrt((x - prev_x) * (x - prev_x) +
+                          (y - prev_y) * (y - prev_y)) - prev_r
 
-            dir += 0.9
+            r = Math.min(255 - col, r)
+
+            dir += 0.4
 
             return next
         }
